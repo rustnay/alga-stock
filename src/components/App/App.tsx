@@ -2,7 +2,7 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 import TestComponent from  '../TestComponent'
-import ClassComponent from '../ClassComponent'
+// import ClassComponent from '../ClassComponent'
 
 function App() {
   return (
@@ -11,7 +11,7 @@ function App() {
         <img src={logo} className="App-logo" alt="logo" />
         
         <TestComponent name = "Cristiano Souza"/>
-        <ClassComponent name ="Teste"/>
+        {/* <ClassComponent name ="Teste"/> */}
         <a
           className="App-link"
           href="https://reactjs.org"
