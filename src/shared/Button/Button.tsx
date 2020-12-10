@@ -1,7 +1,7 @@
 import React from 'react'
 import './Button.css'
 
-interface ButtonProps {
+declare interface ButtonProps {
     onClick?: () => void,
     appendIcon: JSX.Element
 }
