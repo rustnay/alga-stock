@@ -20,13 +20,14 @@ function App() {
     <Header title="AlgaStock" />
 
       <Container>
-        <Button onClick={() => window.alert('UIIIU')}
-          appendIcon={<TestComponent />}
-        > 
-          Potato
-        </Button>
+        <ul>
+        {
+          ['Cristiano', 'Daniel', 'Tiago'].map((name, index) => {
+            return <li key={index}>{name}</li>
+          })
+        }
 
-        <Input label="Street" placeholder="15h" value={street} onChange={e => setStreet(e.target.value)}/>
+        </ul>
 
       </Container>
 
