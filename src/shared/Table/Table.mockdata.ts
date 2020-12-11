@@ -1,4 +1,3 @@
-import { deflate } from "zlib"
 
 export interface Product {
     id: number
