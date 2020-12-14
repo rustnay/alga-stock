@@ -4,6 +4,7 @@ import { createSingleProduct, deleteSingleProduct, getAllProducts, updateSingleP
 import Table, { TableHeader } from '../../shared/Table'
 import { Product } from '../../shared/Table/Table.mockdata'
 import ProductForm, { ProductCreator } from './ProductForm'
+import {connect} from 'react-redux'
 
 
 const headers: TableHeader[] = [
@@ -12,15 +13,18 @@ const headers: TableHeader[] = [
     { key: 'price', value: 'Price' },
     { key: 'stock', value: 'Available Stock', right: true }
 ]
+declare interface ProductsCRUDProps {
+    products: Product[]
+}
 
-const ProductsCRUD = () => {
+const ProductsCRUD: React.FC<ProductsCRUDProps> = (props) => {
 
-    const [products, setProducts] = useState<Product[]>([])
-    const [updatingProduct, setUpdatingProduct] = useState<Product | undefined>(products[0])
+    // const [products, setProducts] = useState<Product[]>([])
+    const [updatingProduct, setUpdatingProduct] = useState<Product | undefined>(undefined)
 
     async function fetchData() {
-        const _products = await getAllProducts()
-        setProducts(_products)
+    //     const _products = await getAllProducts()
+    //     setProducts(_products)
     }
 
     useEffect(() => {
@@ -97,7 +101,7 @@ const ProductsCRUD = () => {
     return <>
         <Table
             headers={headers}
-            data={products}
+            data={props.products}
             enableActions={true}
             onDelete={handleProductDelete}
             onDetail={handleProductDetail}
@@ -113,4 +117,7 @@ const ProductsCRUD = () => {
     </>
 }
 
-export default ProductsCRUD
+const mapStateToProps = (state: any)  => ({
+    products: state.products
+})
+export default connect(mapStateToProps)(ProductsCRUD)
