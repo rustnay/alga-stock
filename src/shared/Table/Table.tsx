@@ -1,7 +1,10 @@
 import React from 'react'
+import { NavLink, useLocation } from 'react-router-dom'
 import organizeData from '../../utils/organizeDataForTable'
 import Button from '../Button'
 import './Table.scss'
+import { parse } from 'query-string'
+import paginate from '../../utils/paginate'
 
 export interface TableHeader {
     key: string
@@ -15,14 +18,28 @@ declare interface TableProps {
 
     enableActions?: boolean
 
+    itemsPerPage?: number
+
     onDelete?: (item: any) => void
     onDetail?: (item: any) => void
     onEdit?: (item: any) => void
 }
 
 const Table: React.FC<TableProps> = (props) => {
+
+    const itemsPerPAge = props.itemsPerPage || 5
+    const location = useLocation()
+    const page = parseInt(parse(location.search).page as string) || 1
+    
     const [organizedData, indexedHeaders] = organizeData(props.data, props.headers)
-    return <table className="AppTable">
+
+    const paginatedData = paginate(organizedData, itemsPerPAge, page)
+    const totalPages = Math.ceil(organizedData.length / itemsPerPAge)
+
+    
+
+    return <>
+    <table className="AppTable">
         <thead>
             <tr>
                 {
@@ -43,7 +60,7 @@ const Table: React.FC<TableProps> = (props) => {
         </thead>
         <tbody>
             {
-                organizedData.map((row, index) => {
+                paginatedData.map((row, index) => {
                     return <tr key={index}>
                         {
                             Object
@@ -88,6 +105,28 @@ const Table: React.FC<TableProps> = (props) => {
             }
         </tbody>
     </table>
+
+    <div className="Table__pagination">
+        {
+            Array(totalPages)
+                .fill('')
+                .map((_, i) => {
+                    return <NavLink to={
+                        {   pathname: location.pathname,
+                            search: `?page=${i + 1}`
+                        }
+
+                    }
+                        activeClassName="selected"
+                        isActive={() => page === i+1}    
+                        key={i}
+                    >
+                        {i + 1}
+                    </NavLink>
+                })
+        }
+    </div>
+    </>
 }
 
 
